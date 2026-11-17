@@ -6,41 +6,55 @@ const gamelist = document.getElementById('gameList')
 const borname = document.getElementById('borrowerName')
 
 const game = [
-    { titel: "Каркассон", players: 4, borrower: null },
-    { title: "Доббль", players: 6, borrower: 'Аня' },
-    { title: "Шахматы", players: 2, borrower: null }
-]
+    { title: 'Каркассон', players: 4, borrower: null },
+    { title: 'Доббль', players: 6, borrower: 'Аня' },
+    { title: 'Шахматы', players: 2, borrower: null }
+];
+
+
+borbutton.addEventListener('click', () => {
+    let selectedGame = game[Number(gamesel.value)]
+    if (borname.value === '') {
+        message.textContent = 'Введите имя';
+        return;
+    }
+    if (selectedGame.borrower !== null) {
+        message.textContent = 'Игра уже выдана';
+        return;
+    }
+    selectedGame.borrower = borname.value
+    message.textContent = 'Игра выдана';
+    renderGames();
+});
 
 
 retbutton.addEventListener('click', () => {
     let selectedGame = game[Number(gamesel.value)]
-    if (selectedGame.borrower === null) {
-        game[0].name = borname.value
-        message.innerHTML = ""
-    }
-    else {
-        message.innerHTML = "error"
-    }
-    renderGames();
-});
+    if (selectedGame.borrower === null) {        
+    message.textContent = 'Игра уже свободна';
+    return;                                    
+  }
 
-borbutton.addEventListener('click', () => {
-    let selectedGame = game[Number(gamesel.value)]
-    if (selectedGame.borrower != null) {
-        game[Number(gamesel.value)].name = null
-        message.innerHTML = ""
-    }
-    else {
-        message.innerHTML = ""
-    }
-    renderGames();
+  selectedGame.borrower = null;                
+  message.textContent = 'Игра возвращена';
+  renderGames();
 });
 
 function renderGames() {
-    gameList.innerHTML = '';
-    games.forEach((game, index) => {
-        const item = document.createElement('li');
-        
+    gamelist.textContent = '';
+
+    game.forEach((game) => {
+        const li = document.createElement('li');
+
+        let status;
+        if (game.borrower === null) {
+            status = 'Свободна';
+        } else {
+            status = 'Взял(а): ' + game.borrower;
+        }
+
+        li.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
+        gamelist.append(li);
     });
-  }
-  renderGames();
+}
+renderGames();
