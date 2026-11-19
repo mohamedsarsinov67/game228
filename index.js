@@ -13,7 +13,7 @@ const que = document.getElementById(`qua`)
 
 const game = [
     { title: ['Каркассон'], players: 4, borrower: null },
-    { title: ['Доббль'], players: 6, borrower: 'Аня' },
+    { title: ['Доббль'], players: 6, borrower: ['Аня'] },
     { title: ['Шахматы'], players: 2, borrower: null },
     { title: ['ОПА'], players: 2, borrower: null }
 ];
@@ -31,6 +31,7 @@ borbutton.addEventListener('click', () => {
     }
     selectedGame.borrower = borname.value
     message.textContent = 'Игра выдана';
+    
     renderGames();
 });
 
@@ -44,10 +45,12 @@ retbutton.addEventListener('click', () => {
 
     selectedGame.borrower = null;
     message.textContent = 'Игра возвращена';
+    
     renderGames();
 });
 
 showHint.addEventListener('change', () => {
+    
     renderGames();
 });
 
@@ -58,6 +61,7 @@ add.addEventListener('click', () => {
     else{
         message.textContent = `игра некоректно указана`
     }
+    
     renderGames();
 });
 
@@ -78,6 +82,11 @@ function renderGames() {
         }
         else {
             LI.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
+            gamelist.append(LI);
+        }
+        if (!showHint.checked || item.borrower === null) {
+            const LI = document.createElement('li');
+            LI.textContent = item.title + item.players `игрока` + status;
             gamelist.append(LI);
         }
         
@@ -102,5 +111,6 @@ function renderGameOptions(){
     });
     
 }
+
 renderGames();
 renderGameOptions()
