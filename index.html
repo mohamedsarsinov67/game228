@@ -10,29 +10,39 @@
 </head>
 
 <body>
-  <h1>Прокат настольных игр</h1>
-  <input type="checkbox" id="showHint">
-  <label for="showHint">Только СВОбодные</label>
-  <p id="hint"></p>
-  <ul id="gameList"></ul>
+  <div class="body1">
+    <div class="text">
+      <h1>Прокат настольных игр</h1>
+      <input type="checkbox" id="showHint">
+      <label for="showHint">Только СВОбодные</label>
+      <p id="hint"></p>
+      <ul id="gameList"></ul>
+    </div>
+    <div class="pol">
+      <div class="fild">
+        <input type="text" id="name">
+        <label for="iputs">название игры </label>
+      </div>
+      <div class="fild2">
+        <input type="text" id="qua">
+        <label for="stupi">число игроков</label>
+      </div>
+      <button id="add!">Добавить игру</button>
+    </div>
+    <div class="val">
+      <label for="gameSelect">Игра</label>
+      <select id="gameSelect">
+      </select>
+    </div>
+    <div class="name">
 
-  <label for="gameSelect">Игра</label>
-  <select id="gameSelect">
-    <option value="0">Каркассон</option>
-    <option value="1">Доббль</option>
-    <option value="2">Шахматы</option>
-  </select>
-
-  <input type="text" id = "iputs">
-  <label for="iputs"></label>
-  <input type="text" id = "stupi">
-  <label for="stupi"></label>
-  <button id = "add!"></button>
-  <label for="borrowerName">Имя посетителя</label>
-  <input id="borrowerName" type="text">
-  <button id="borrowButton" type="button">Выдать</button>
-  <button id="returnButton" type="button">Вернуть</button>
-  <p id="message"></p>
+      <label for="borrowerName">Имя посетителя</label>
+      <input id="borrowerName" type="text">
+      <button id="borrowButton" type="button">Выдать</button>
+      <button id="returnButton" type="button">Вернуть</button>
+      <p id="message"></p>
+    </div>
+  </div>
   <script src="index.js"></script>
 </body>
 
