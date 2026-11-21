@@ -72,8 +72,7 @@ function renderGames() {
 
     game.forEach((game) => {
         
-        
-        if(showHint && game.borrower == null){
+        if(showHint && game.borrower !== null){
             return 
         }
         let status;
