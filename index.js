@@ -66,40 +66,25 @@ add.addEventListener('click', () => {
 });
 
 function renderGames() {
-    gamelist.textContent = '';
+    gamelist.innerHTML = '';
 
 
 
     game.forEach((game) => {
-        gamelist.innerHTML = ``;
-        const LI = document.createElement('li');
-
+        
+        
+        if(showHint && game.borrower == null){
+            return 
+        }
         let status;
         if (game.borrower === null) {
             status = 'Свободна';
-            
         } else {
             status = 'Взял(а): ' + game.borrower;
-            
         }
-
-        if (showHint.checked) {
-            if (game.borrower === null) {
-                LI.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
-                gamelist.append(LI);
-            }
-        }
-        else {
-            LI.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
-            gamelist.append(LI);
-        }
-        if (showHint.checked && game.borrower !== null) {
-            return;
-        }
-        
+        const LI = document.createElement('li');
         LI.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
         gamelist.append(LI);
-        
     });
 
 }
