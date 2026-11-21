@@ -1,13 +1,15 @@
-const gamesel = document.getElementById('gameSelect');
-const message = document.getElementById('message');
-const borbutton = document.getElementById('borrowButton');
-const retbutton = document.getElementById('returnButton');
-const gamelist = document.getElementById('gameList');
-const borname = document.getElementById('borrowerName');
+const gamesel = document.getElementById('gameSelect')
+const message = document.getElementById('message')
+const borbutton = document.getElementById('borrowButton')
+const retbutton = document.getElementById('returnButton')
+const gamelist = document.getElementById('gameList')
+const borname = document.getElementById('borrowerName')
 const showHint = document.getElementById('showHint');
-const add = document.getElementById('add');
-const Gamename = document.getElementById('name');
-const que = document.getElementById('qua');
+const hint = document.getElementById('hint');
+const add = document.getElementById(`add!`)
+const Gamename = document.getElementById(`name`)
+const que = document.getElementById(`qua`)
+
 
 const game = [
     { title: 'Каркассон', players: 4, borrower: null },
@@ -16,40 +18,26 @@ const game = [
     { title: 'ОПА', players: 2, borrower: null }
 ];
 
+
 borbutton.addEventListener('click', () => {
-    const index = Number(gamesel.value);
-    if (index < 0 || index >= game.length) {
-        message.textContent = 'Выберите игру из списка';
-        return;
-    }
-
-    let selectedGame = game[index];
-
-    if (!borname.value.trim()) {
+    let selectedGame = game[Number(gamesel.value)]
+    if (borname.value === '') {
         message.textContent = 'Введите имя';
         return;
     }
-
     if (selectedGame.borrower !== null) {
         message.textContent = 'Игра уже выдана';
         return;
     }
-
-    selectedGame.borrower = borname.value.trim();
+    selectedGame.borrower = borname.value
     message.textContent = 'Игра выдана';
+    
     renderGames();
-    renderGameOptions(); 
 });
 
+
 retbutton.addEventListener('click', () => {
-    const index = Number(gamesel.value);
-    if (index < 0 || index >= game.length) {
-        message.textContent = 'Выберите игру из списка';
-        return;
-    }
-
-    let selectedGame = game[index];
-
+    let selectedGame = game[Number(gamesel.value)]
     if (selectedGame.borrower === null) {
         message.textContent = 'Игра уже свободна';
         return;
@@ -57,77 +45,74 @@ retbutton.addEventListener('click', () => {
 
     selectedGame.borrower = null;
     message.textContent = 'Игра возвращена';
+    
     renderGames();
-    renderGameOptions();
 });
 
 showHint.addEventListener('change', () => {
+    
     renderGames();
 });
 
 add.addEventListener('click', () => {
-    const gamenameValue = Gamename.value.trim();
-    const quaValue = Number(que.value);
-
-    if (!gamenameValue) {
-        message.textContent = 'Укажите название игры';
-        return;
+    if(Gamename.value !== null && Number(que.value) > 0){
+    game.push({title:Gamename.value, players:Number(que.value) , borrower:null})
     }
-    if (quaValue <= 0 || Number.isNaN(quaValue)) {
-        message.textContent = 'Количество игроков должно быть числом > 0';
-        return;
+    else{
+        message.textContent = `игра некоректно указана`
     }
-
-    game.push({
-        title: gamenameValue,
-        players: quaValue,
-        borrower: null
-    });
-
-    message.textContent = 'Игра добавлена';
+    renderGameOptions()
     renderGames();
-    renderGameOptions();
-    
-    Gamename.value = '';
-    que.value = '';
 });
 
 function renderGames() {
     gamelist.textContent = '';
 
-    game.forEach((item) => {
+
+
+    game.forEach((game) => {
+        gamelist.innerHTML = ``;
         const LI = document.createElement('li');
 
         let status;
-        if (item.borrower === null) {
+        if (game.borrower === null) {
             status = 'Свободна';
+            
         } else {
-            status = 'Взял(а): ' + item.borrower;
+            status = 'Взял(а): ' + game.borrower;
+            
         }
 
+        if (showHint.checked) {
+            if (game.borrower === null) {
+                LI.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
+                gamelist.append(LI);
+            }
+        }
+        else {
+            LI.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
+            gamelist.append(LI);
+        }
+        if (showHint.checked && game.borrower !== null) {
+            return;
+        }
         
-        if (!showHint.checked && item.borrower !== null) {
-            return; 
-        }
-
-        LI.textContent = `${item.title} · ${item.players} игрока · ${status}`;
+        LI.textContent = game.title + ' · ' + game.players + ' игрока · ' + status;
         gamelist.append(LI);
+        
     });
-}
 
-function renderGameOptions() {
-    gamesel.innerHTML = '';
-    game.forEach((el, i) => {
-        const opt = document.createElement('option');
-        opt.value = i;
-        opt.textContent = el.title;
-        gamesel.append(opt);
+}
+function renderGameOptions(){
+    gamesel.innerHTML = "";
+    game.forEach((el, i) =>{
+        const opt = document.createElement(`option`)
+        opt.value = i
+        opt.textContent = el.title
+        gamesel.append(opt)
     });
     
-    if (game.length > 0) {
-        gamesel.value = 0;
-    }
 }
 
 renderGames();
-renderGameOptions();
+renderGameOptions()
